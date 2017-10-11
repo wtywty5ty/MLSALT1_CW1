@@ -1,4 +1,5 @@
 import matplotlib . pyplot as plt
+import numpy as np
 
 ##
 # X: 2d array with the input features
@@ -8,8 +9,8 @@ import matplotlib . pyplot as plt
 def plot_data_internal (X, y):
     x_min , x_max = X[ : , 0 ]. min () - .5 , X[ : , 0 ]. max () + .5
     y_min , y_max = X[ : , 1 ]. min () - .5 , X[ : , 1 ]. max () + .5
-    xx , yy = np. meshgrid (np. linspace (x_min , x_max , 100) , \
-    np. linspace (y_min , y_max , 100))
+    xx , yy = np. meshgrid (np. linspace (x_min , x_max , 100) ,
+                            np. linspace (y_min , y_max , 100))
     plt. figure ()
     plt. xlim (xx.min () , xx. max ())
     plt. ylim (yy.min () , yy. max ())
@@ -19,7 +20,7 @@ def plot_data_internal (X, y):
     plt. xlabel ('X1 ')
     plt. ylabel ('X2 ')
     plt. title ('Plot data ')
-    plt. legend (loc = 'upper left ', scatterpoints = 1 , numpoints = 1)
+    plt. legend (loc = 'upper left', scatterpoints = 1 , numpoints = 1)
     return xx , yy
 
 ##
