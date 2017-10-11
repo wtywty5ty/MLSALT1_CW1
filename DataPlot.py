@@ -58,7 +58,7 @@ def plot_predictive_distribution (X, y, predict ):
     ax = plt. gca ()
     X_predict = np. concatenate (( xx. ravel (). reshape (( -1 , 1)) , \
     yy. ravel (). reshape (( -1 , 1))) , 1)
-    Z = predict ( X_predict )
+    Z = predict (X_predict)
     Z = Z. reshape (xx. shape )
     cs2 = ax. contour (xx , yy , Z, cmap = 'RdBu ', linewidths = 2)
     plt. clabel (cs2 , fmt = '%2.1 f', colors = 'k', fontsize = 14)
