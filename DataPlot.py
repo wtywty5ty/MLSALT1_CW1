@@ -53,15 +53,15 @@ def plot_ll (ll ):
 # predict : function that recives as input a feature matrix and returns a 1d
 # vector with the probability of class 1.
 
-def plot_predictive_distribution (X, y, predict ):
+def plot_predictive_distribution (X, y, predict, weights):
     xx , yy = plot_data_internal (X, y)
     ax = plt. gca ()
-    X_predict = np. concatenate (( xx. ravel (). reshape (( -1 , 1)) , \
+    X_predict = np. concatenate (( xx. ravel (). reshape (( -1 , 1)) ,
     yy. ravel (). reshape (( -1 , 1))) , 1)
-    Z = predict (X_predict)
+    Z = predict(X_predict, weights)
     Z = Z. reshape (xx. shape )
-    cs2 = ax. contour (xx , yy , Z, cmap = 'RdBu ', linewidths = 2)
-    plt. clabel (cs2 , fmt = '%2.1 f', colors = 'k', fontsize = 14)
+    cs2 = ax. contour (xx , yy , Z, cmap = 'RdBu', linewidths = 2)
+    plt. clabel (cs2, fmt='%2.1f', colors='k', fontsize = 14)
     plt. show ()
 
 ##
