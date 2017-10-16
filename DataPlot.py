@@ -76,3 +76,21 @@ def expand_inputs (l, X, Z):
     ones_X = np. ones (X. shape [ 0 ])
     r2 = np. outer (X2 , ones_Z ) - 2 * np. dot(X, Z.T) + np. outer (ones_X , Z2)
     return np.exp ( -0.5 / l**2 * r2)
+
+##
+# X: 2d array with the input features
+# y: 1d array with the class labels (0 or 1)
+# predict : function that recives as input a feature matrix and returns a 1d
+# vector with the probability of class 1.
+
+def plot_predictive_distribution_expand(X, y, predict, expand_input, l, X_train, weights):
+    xx , yy = plot_data_internal (X, y)
+    ax = plt. gca ()
+    X_predict = np. concatenate (( xx. ravel (). reshape (( -1 , 1)) ,
+    yy. ravel (). reshape (( -1 , 1))) , 1)
+    X_predict = expand_input(l, X_predict, X_train)
+    Z = predict(X_predict, weights)
+    Z = Z. reshape (xx. shape )
+    cs2 = ax. contour (xx , yy , Z, cmap = 'RdBu', linewidths = 2)
+    plt. clabel (cs2, fmt='%2.1f', colors='k', fontsize = 14)
+    plt. show ()
