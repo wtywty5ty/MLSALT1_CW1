@@ -41,10 +41,11 @@ def plot_ll (ll ):
     ax = plt. gca ()
     plt. xlim (0 , len(ll) + 2)
     plt. ylim (min(ll) - 0.1 , max(ll) + 0.1)
-    ax. plot (np. arange (1 , len(ll) + 1) , ll , 'r-')
+    ax. plot (np. arange (1 , len(ll) + 1) , ll , 'r-', label = 'Likelihood Curve (Final Log-likelihoods = %0.3f)'% ll[-1])
     plt. xlabel ('Steps ')
     plt. ylabel ('Average log - likelihood ')
     plt. title ('Plot Average Log - likelihood Curve ')
+    plt.legend(loc='lower right')
     plt. show ()
 
 ##
