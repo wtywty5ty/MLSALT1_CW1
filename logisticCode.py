@@ -68,6 +68,20 @@ def sigmoid(X, weights): #also is prediction
     s[s==0] = 0.1e-15
     return s
 
+def gradient(X, y, weights):
+    X_aug = np.concatenate((np.ones((X.shape[0], 1)), X), axis=1)
+    s = sigmoid(X, weights)
+    return np.dot(X_aug.T, np.subtract(y, s))
+
+def gradAscent(X, y, learnRate, iterations):
+    X_aug = np.concatenate((np.ones((X.shape[0], 1)), X), axis=1)
+    weights = 1 * np.ones((X_aug.shape[1], 1))  # initial weights
+    record = np.zeros((iterations, X_aug.shape[1]))
+    for i in range(iterations):
+        weights = weights + learnRate * gradient(X, y, weights)
+        record[i] = weights.T
+    return weights, record
+
 def confMatrix(test, label, weights, thres):
     prediction = sigmoid(test, weights)
     prediction[prediction > thres] = 1
@@ -115,7 +129,7 @@ def plot_ROC(test, label, weights):
     ax = plt.gca()
     plt.xlim(0, 1)
     plt.ylim(0, 1)
-    ax.plot(roc[:, 0], roc[:, 1], 'r-', label='ROC curve (area = %0.2f)' % auc(roc[:, 0], roc[:, 1]))
+    ax.plot(roc[:, 0], roc[:, 1], 'r-', label='ROC curve (area = %0.3f)' % auc(roc[:, 0], roc[:, 1]))
     ax.plot([0, 1], [0, 1], color='navy', linestyle='--')
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
@@ -133,6 +147,15 @@ class Logistic_MAP(Logistic):
         return weights
 
 def sig(x):
-    return 1.0 / (1.0 + np.exp(x))
+    return 1.0 / (1.0 + np.exp(- x))
 
-
+def confMatrix_prd(prediction, label, thres):
+    #prediction = sigmoid(test, weights)
+    prediction[prediction > thres] = 1
+    prediction[prediction <= thres] = 0
+    conf = np.zeros((2,2))
+    conf[0, 0] = 1 - np.count_nonzero(prediction[label== 0]) / prediction[label== 0].size
+    conf[0, 1] = np.count_nonzero(prediction[label== 0]) / prediction[label== 0].size
+    conf[1, 0] = 1 - np.count_nonzero(prediction[label== 1]) / prediction[label== 1].size
+    conf[1, 1] = np.count_nonzero(prediction[label== 1]) / prediction[label== 1].size
+    return conf
