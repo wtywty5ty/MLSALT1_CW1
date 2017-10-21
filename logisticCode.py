@@ -125,7 +125,7 @@ def plot_ROC(test, label, weights):
 
 
 
-class Logistic_prior(Logistic):
+class Logistic_MAP(Logistic):
     def gradAscent(self, weights, learnRate):
         s = self.sigmoid(weights)
         gradient = np.dot(self.X_aug.T, np.subtract(self.labels, s))
@@ -135,5 +135,4 @@ class Logistic_prior(Logistic):
 def sig(x):
     return 1.0 / (1.0 + np.exp(x))
 
-def laplace():
-    ua = w_MAP
+
