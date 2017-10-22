@@ -96,14 +96,14 @@ def plot_predictive_distribution_expand(X, y, predict, expand_input, l, X_train,
     plt. clabel (cs2, fmt='%2.1f', colors='k', fontsize = 14)
     plt. show ()
 
-def plot_predictive_distribution_laplace(X, y, predict, expand_inputs, l, X_train, y_train):
+def plot_predictive_distribution_laplace(X, y, predict, l, X_train, y_train, sigma):
     xx , yy = plot_data_internal (X, y)
     ax = plt. gca ()
     X_predict = np. concatenate (( xx. ravel (). reshape (( -1 , 1)) ,
     yy. ravel (). reshape (( -1 , 1))) , 1)
     X_train_RBF = expand_inputs(l, X_train, X_train)
     X_predict = expand_inputs(l, X_predict, X_train)
-    Z = predict(X_predict, X_train_RBF, y_train)
+    Z = predict(X_predict, X_train_RBF, y_train, sigma)
     Z = Z. reshape (xx. shape )
     cs2 = ax. contour (xx , yy , Z, cmap = 'RdBu', linewidths = 2)
     plt. clabel (cs2, fmt='%2.1f', colors='k', fontsize = 14)

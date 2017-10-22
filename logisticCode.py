@@ -94,17 +94,17 @@ def confMatrix(test, label, weights, thres):
     return conf
 
 # joint probability to compute MAP
-def func(w, X, y):
+def func(w, X, y, sigma):
     s = sigmoid(X, w)
     LogL = np.sum(np.log(np.power(s, y)) + np.log(np.power((1 - s),(1-y))))
-    LogP = -np.power(w, 2)/2
+    LogP = np.sum(-np.power(w, 2) / 2) * sigma
     return -LogL - LogP
 
 # gradient of func
-def grad(w, X, y):
+def grad(w, X, y, sigma):
     X_aug = np.concatenate((np.ones((X.shape[0], 1)), X), axis=1)
     s = sigmoid(X, w)
-    gradient = np.dot(X_aug.T, np.subtract(y, s)) - w
+    gradient = np.dot(X_aug.T, np.subtract(y, s)) - w*sigma
     return -gradient
 
 
