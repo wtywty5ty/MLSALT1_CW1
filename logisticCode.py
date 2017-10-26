@@ -39,7 +39,7 @@ class Logistic(object):
         return weights
 
     def train(self, learnRate, iterations):
-        weights = 1 * np.ones((self.X_aug.shape[1], 1))  # initial weights
+        weights = np.ones((self.X_aug.shape[1], 1))  # initial weights
         record = np.zeros((iterations, self.X_aug.shape[1]))
         for i in range(iterations):
             weights = self.gradAscent(weights, learnRate)
@@ -75,11 +75,11 @@ def gradient(X, y, weights):
 
 def gradAscent(X, y, learnRate, iterations):
     X_aug = np.concatenate((np.ones((X.shape[0], 1)), X), axis=1)
-    weights = 1 * np.ones((X_aug.shape[1], 1))  # initial weights
+    weights = np.ones((X_aug.shape[1], 1))  # initial weights
     record = np.zeros((iterations, X_aug.shape[1]))
     for i in range(iterations):
-        weights = weights + learnRate * gradient(X, y, weights)
-        record[i] = weights.T
+        weights = weights + learnRate * gradient(X, y, weights) #update weights vector by gradient ascent
+        record[i] = weights.T # record updated weights in each iteration
     return weights, record
 
 def confMatrix(test, label, weights, thres):
@@ -97,14 +97,14 @@ def confMatrix(test, label, weights, thres):
 def func(w, X, y, sigma):
     s = sigmoid(X, w)
     LogL = np.sum(np.log(np.power(s, y)) + np.log(np.power((1 - s),(1-y))))
-    LogP = np.sum(-np.power(w, 2) / 2) * sigma
+    LogP = np.sum(-np.power(w, 2) / sigma)/2
     return -LogL - LogP
 
 # gradient of func
 def grad(w, X, y, sigma):
     X_aug = np.concatenate((np.ones((X.shape[0], 1)), X), axis=1)
     s = sigmoid(X, w)
-    gradient = np.dot(X_aug.T, np.subtract(y, s)) - w*sigma
+    gradient = np.dot(X_aug.T, np.subtract(y, s)) - w/sigma
     return -gradient
 
 
@@ -147,7 +147,10 @@ class Logistic_MAP(Logistic):
         return weights
 
 def sig(x):
-    return 1.0 / (1.0 + np.exp(- x))
+    s = 1.0 / (1.0 + np.exp(- x))
+    s[s==1] = 1 - 0.1e-15
+    s[s==0] = 0.1e-15
+    return s
 
 def confMatrix_prd(prediction, label, thres):
     #prediction = sigmoid(test, weights)

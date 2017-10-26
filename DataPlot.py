@@ -103,7 +103,7 @@ def plot_predictive_distribution_laplace(X, y, predict, l, X_train, y_train, sig
     yy. ravel (). reshape (( -1 , 1))) , 1)
     X_train_RBF = expand_inputs(l, X_train, X_train)
     X_predict = expand_inputs(l, X_predict, X_train)
-    Z = predict(X_predict, X_train_RBF, y_train, sigma)
+    Z = predict(X_predict, X_train_RBF, y_train, sigma)[0]
     Z = Z. reshape (xx. shape )
     cs2 = ax. contour (xx , yy , Z, cmap = 'RdBu', linewidths = 2)
     plt. clabel (cs2, fmt='%2.1f', colors='k', fontsize = 14)
